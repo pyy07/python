@@ -50,7 +50,7 @@ def run_scan_modify_only(path):
 			pass	
 		else:
 			content = content + "\nfile " + k + " is modified at " + time.ctime(v)
-			fileList[path][k] = v
+			fileList[path][k] = newMTime
 
 	with open("log.txt", "a") as file:
 		file.write(content)

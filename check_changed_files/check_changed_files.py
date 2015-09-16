@@ -41,16 +41,36 @@ def run_scan(path):
 
 	with open("log.txt", "a") as file:
 		file.write(content)
+
+def run_scan_modify_only(path):
+	content = ""
+	for k, v in fileList[path].items():
+		newMTime = os.path.getmtime(k)
+		if newMTime == v:
+			pass	
+		else:
+			content = content + "\nfile " + k + " is modified at " + time.ctime(v)
+			fileList[path][k] = v
+
+	with open("log.txt", "a") as file:
+		file.write(content)
 					
+
+def print_mem_usage():
+	import os
+	import psutil
+	process = psutil.Process(os.getpid())
+	print process.memory_info()
 
 def main():
 	for p in scan_paths:
 		fileList[p] = create_file_list(p, 1)
 
 	while True:
+		# print_mem_usage()
 		threadList = []
 		for p in scan_paths:
-			t = threading.Thread(target = run_scan, name = "thread_" + p, args=(p,))
+			t = threading.Thread(target = run_scan_modify_only, name = "thread_" + p, args=(p,))
 			t.start()
 			threadList.append(t)
 		

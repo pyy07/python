@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 import re 
@@ -17,14 +17,17 @@ def find_chinese_in_file(file):
 		print file
 		print zh
 
+def scan_folder(folder):
+	for r, d, f in os.walk(item):
+		for x in f:
+			if x.find(".lua") == -1:
+				continue
+			find_chinese_in_file(os.path.join(r,x))
+	
 if __name__ == "__main__":
 	scan_list = ["D:\\mlong\\HiRun\\trunk\\src\\base", "D:\\mlong\\HiRun\\trunk\\src\\core", "D:\\mlong\\HiRun\\trunk\\src\\define",
 				"D:\\mlong\\HiRun\\trunk\\src\\graph", "D:\\mlong\\HiRun\\trunk\\src\\legacyUI", "D:\\mlong\\HiRun\\trunk\\src\\ui"]
 	for item in scan_list:
-		for r, d, f in os.walk(item):
-			for x in f:
-				if x.find(".lua") == -1:
-					continue
-				find_chinese_in_file(os.path.join(r,x))
+		scan_folder(item)
 
 # check_file("base\\MultiLang.lua")
